@@ -37,6 +37,46 @@
 
 static char line[LINE_BUFFER_SIZE]; // Line to be executed. Zero-terminated.
 
+static bool is_rygy_line(char *line) {
+  if (line[0] == 'R' && line[1] == 'Y' && line[2] == 'G' && line[3] == 'Y') {
+    return true;
+  }
+
+  return false;
+}
+
+static int8_t process_on_off(char *line) {
+  if (line[6] != ' ') {
+    return(STATUS_EXPECTED_COMMAND_LETTER);
+  }
+  report_status_message(STATUS_OK);
+
+  if (line[7] == 'O' && line[8] == 'N') {
+    return 1;
+  } else if (line[7] == 'O' && line[8] == 'F' && line[9] == 'F') {
+    return 0;
+  } else {
+    return -1;
+  }
+}
+
+static uint8_t process_rygy_line(char *line) {
+  if (line[4] != ' ') {
+    return(STATUS_EXPECTED_COMMAND_LETTER);
+  }
+  report_status_message(STATUS_OK);
+
+  int result;
+  if (line[5] == 'L') {
+    result = process_on_off(line);
+    if (result == 0) {
+      return(STATUS_OK);
+    } else if(result == 1) {
+      return(STATUS_OK);
+    }
+  }
+  return(STATUS_INVALID_STATEMENT);
+}
 
 // Directs and executes one line of formatted input from protocol_process. While mostly
 // incoming streaming g-code blocks, this also directs and executes Grbl internal commands,
@@ -44,7 +84,7 @@ static char line[LINE_BUFFER_SIZE]; // Line to be executed. Zero-terminated.
 static void protocol_execute_line(char *line) 
 {      
   protocol_execute_runtime(); // Runtime command check point.
-  if (sys.abort) { return; } // Bail to calling function upon system abort  
+  if (sys.abort) { return; } // Bail to calling function upon system abort 
 
   if (line[0] == 0) {
     // Empty or comment line. Send status message for syncing purposes.
@@ -57,7 +97,9 @@ static void protocol_execute_line(char *line)
   } else if (sys.state == STATE_ALARM) {
     // Everything else is gcode. Block if in alarm mode.
     report_status_message(STATUS_ALARM_LOCK);
-
+  } else if (is_rygy_line(line)) {
+    report_status_message(STATUS_OK);
+    report_status_message(process_rygy_line(line));
   } else {
     // Parse and execute g-code block!
     report_status_message(gc_execute_line(line));

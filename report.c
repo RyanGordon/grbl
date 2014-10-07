@@ -32,6 +32,7 @@
 #include "settings.h"
 #include "gcode.h"
 #include "coolant_control.h"
+#include "dio_control.h"
 #include "planner.h"
 #include "spindle_control.h"
 #include "stepper.h"
@@ -323,6 +324,11 @@ void report_gcode_modes()
     #ifdef ENABLE_M7
       case COOLANT_MIST_ENABLE : printPgmString(PSTR(" M7")); break;
     #endif
+  }
+
+  switch (gc_state.modal.dio_immediate) {
+    case DIGITAL_OUTPUT_IMMEDIATE_DISABLE : printPgmString(PSTR(" M64")); break;
+    case DIGITAL_OUTPUT_IMMEDIATE_ENABLE : printPgmString(PSTR(" M65")); break;
   }
   
   printPgmString(PSTR(" T"));

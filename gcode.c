@@ -308,12 +308,14 @@ uint8_t gc_execute_line(char *line)
               case 9: gc_block.modal.coolant = COOLANT_DISABLE; break;
             }
             break;
+          #ifdef DIO_CONTROL
           case 64: case 65:
             word_bit = MODAL_GROUP_M9;
             switch(int_value) {
               case 64: gc_block.modal.dio_immediate = DIGITAL_OUTPUT_IMMEDIATE_ENABLE; break;
               case 65: gc_block.modal.dio_immediate = DIGITAL_OUTPUT_IMMEDIATE_DISABLE; break;
             }
+          #endif
           default: FAIL(STATUS_GCODE_UNSUPPORTED_COMMAND); // [Unsupported M command]
         }            
       

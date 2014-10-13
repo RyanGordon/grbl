@@ -26,41 +26,47 @@
 
 void dio_init()
 {
-  DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT0);
-  DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT1);
-  DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT2);
-  DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT3);
-  dio_stop();
+  #ifdef DIO_CONTROL
+    DIGITAL_IO_DDR1 |= (1 << DIGITAL_IO_BIT0);
+    DIGITAL_IO_DDR1 |= (1 << DIGITAL_IO_BIT1);
+    DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT2);
+    DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT3);
+    dio_stop();
+  #endif
 }
 
 void dio_stop()
 {
-  DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT0);
-  DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT1);
-  DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT2);
-  DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT3);
+  #ifdef DIO_CONTROL
+    DIGITAL_IO_DDR1 &= ~(1 << DIGITAL_IO_BIT0);
+    DIGITAL_IO_DDR1 &= ~(1 << DIGITAL_IO_BIT1);
+    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT2);
+    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT3);
+  #endif
 }
 
 void dio_immediate_run(uint8_t mode, uint8_t pin)
 {
-  if (sys.state == STATE_CHECK_MODE) { return; }
+  #ifdef DIO_CONTROL
+    if (sys.state == STATE_CHECK_MODE) { return; }
 
-  protocol_auto_cycle_start();   //temp fix for M8 lockup
-  protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
+    protocol_auto_cycle_start();   //temp fix for M8 lockup
+    protocol_buffer_synchronize(); // Ensure coolant turns on when specified in program.
 
-  uint8_t bit = DIGITAL_IO_BIT3;
-  switch (pin) {
-    case 0: bit = DIGITAL_IO_BIT0; break;
-    case 1: bit = DIGITAL_IO_BIT1; break;
-    case 2: bit = DIGITAL_IO_BIT2; break;
-    case 3: bit = DIGITAL_IO_BIT3; break;
-  }
+    uint8_t bit = DIGITAL_IO_BIT3;
+    switch (pin) {
+      case 0: bit = DIGITAL_IO_BIT0; break;
+      case 1: bit = DIGITAL_IO_BIT1; break;
+      case 2: bit = DIGITAL_IO_BIT2; break;
+      case 3: bit = DIGITAL_IO_BIT3; break;
+    }
 
-  if (mode == DIGITAL_OUTPUT_IMMEDIATE_ENABLE) {
-    DIGITAL_IO_DDR |= (1 << bit);
-  } else if (mode == DIGITAL_OUTPUT_IMMEDIATE_DISABLE) {
-    DIGITAL_IO_DDR &= ~(1 << bit);
-  } else {
-    dio_stop();
-  }
+    if (mode == DIGITAL_OUTPUT_IMMEDIATE_ENABLE) {
+      DIGITAL_IO_DDR |= (1 << bit);
+    } else if (mode == DIGITAL_OUTPUT_IMMEDIATE_DISABLE) {
+      DIGITAL_IO_DDR &= ~(1 << bit);
+    } else {
+      dio_stop();
+    }
+  #endif
 }

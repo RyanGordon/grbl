@@ -158,7 +158,7 @@
 
 // Enables DIO Control which provides M64 and M65 commands. Currently only supported on ATMEGA2560
 // unless you exchange some pins on the Arduino Uno for this command
-// #define DIO_CONTROL // Default disabled. Uncomment to enable.
+#define DIO_CONTROL // Default disabled. Uncomment to enable.
 
 // Use by the variable spindle output only. These parameters set the maximum and minimum spindle speed
 // "S" g-code values to correspond to the maximum and minimum pin voltages. There are 256 discrete and 

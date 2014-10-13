@@ -138,6 +138,14 @@
    #define SPINDLE_PWM_BIT    SPINDLE_ENABLE_BIT // Shared with SPINDLE_ENABLE.
  #endif // End of VARIABLE_SPINDLE
 
+ #ifdef DIO_CONTROL
+  #define DIGITAL_IO_DDR PORTD
+  #define DIGITAL_IO_BIT0 3 // MEGA2560 Digital Pin 5
+  #define DIGITAL_IO_BIT1 4 // MEGA2560 Digital Pin 6
+  #define DIGITAL_IO_BIT2 3 // MEGA2560 Digital Pin 5
+  #define DIGITAL_IO_BIT3 4 // MEGA2560 Digital Pin 6
+ #endif
+
 #endif
 
 

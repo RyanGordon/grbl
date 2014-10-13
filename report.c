@@ -49,10 +49,9 @@
 // TODO: Install silent mode to return only numeric values, primarily for GUIs.
 void report_status_message(uint8_t status_code) 
 {
-  if (status_code == 0) { // STATUS_OK
-    printPgmString(PSTR("ok\r\n"));
-  } else {
-    printPgmString(PSTR("error: "));
+
+  if (status_code != 0) { // STATUS_OK
+    printPgmString(PSTR(": error \""));
     switch(status_code) {          
       case STATUS_EXPECTED_COMMAND_LETTER:
       printPgmString(PSTR("Expected command letter")); break;
@@ -78,6 +77,8 @@ void report_status_message(uint8_t status_code)
       printPgmString(PSTR("Line overflow")); break; 
       
       // Common g-code parser errors.
+      case STATUS_GCODE_UNUSED_WORDS:
+      printPgmString(PSTR("Unused Words")); break;
       case STATUS_GCODE_MODAL_GROUP_VIOLATION:
       printPgmString(PSTR("Modal group violation")); break;
       case STATUS_GCODE_UNSUPPORTED_COMMAND:
@@ -86,11 +87,12 @@ void report_status_message(uint8_t status_code)
       printPgmString(PSTR("Undefined feed rate")); break;
       default:
         // Remaining g-code parser errors with error codes
-        printPgmString(PSTR("Invalid gcode ID:"));
+        printPgmString(PSTR("Invalid gcode ID: "));
         print_uint8_base10(status_code); // Print error code for user reference
     }
-    printPgmString(PSTR("\r\n"));
+    printPgmString(PSTR("\""));
   }
+  printPgmString(PSTR("\r\n"));
 }
 
 // Prints alarm messages.
@@ -324,11 +326,6 @@ void report_gcode_modes()
     #ifdef ENABLE_M7
       case COOLANT_MIST_ENABLE : printPgmString(PSTR(" M7")); break;
     #endif
-  }
-
-  switch (gc_state.modal.dio_immediate) {
-    case DIGITAL_OUTPUT_IMMEDIATE_DISABLE : printPgmString(PSTR(" M64")); break;
-    case DIGITAL_OUTPUT_IMMEDIATE_ENABLE : printPgmString(PSTR(" M65")); break;
   }
   
   printPgmString(PSTR(" T"));

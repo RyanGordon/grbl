@@ -38,10 +38,10 @@ void dio_init()
 void dio_stop()
 {
   #ifdef DIO_CONTROL
-    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT0);
-    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT1);
-    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT2);
-    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT3);
+    DIGITAL_IO_PORT &= ~(1 << DIGITAL_IO_BIT0);
+    DIGITAL_IO_PORT &= ~(1 << DIGITAL_IO_BIT1);
+    DIGITAL_IO_PORT &= ~(1 << DIGITAL_IO_BIT2);
+    DIGITAL_IO_PORT &= ~(1 << DIGITAL_IO_BIT3);
   #endif
 }
 
@@ -62,9 +62,9 @@ void dio_immediate_run(uint8_t mode, uint8_t pin)
     }
 
     if (mode == DIGITAL_OUTPUT_IMMEDIATE_ENABLE) {
-      DIGITAL_IO_DDR |= (1 << bit);
+      DIGITAL_IO_PORT |= (1 << bit);
     } else if (mode == DIGITAL_OUTPUT_IMMEDIATE_DISABLE) {
-      DIGITAL_IO_DDR &= ~(1 << bit);
+      DIGITAL_IO_PORT &= ~(1 << bit);
     } else {
       dio_stop();
     }

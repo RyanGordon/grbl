@@ -55,11 +55,15 @@ void dio_immediate_run(uint8_t mode, uint8_t pin)
 
     uint8_t bit;
     switch (pin) {
-      case 0: bit = DIGITAL_IO_BIT0; break;
-      case 1: bit = DIGITAL_IO_BIT1; break;
-      case 2: bit = DIGITAL_IO_BIT2; break;
-      case 3: bit = DIGITAL_IO_BIT3; break;
-      default: bit = DIGITAL_IO_BIT3;
+      case 0:
+        bit = DIGITAL_IO_BIT0; break;
+      case 1:
+        bit = DIGITAL_IO_BIT1; break;
+      case 2:
+        bit = DIGITAL_IO_BIT2; break;
+      case 3:
+      default:
+        bit = DIGITAL_IO_BIT3; break;
     }
 
     if (mode == DIGITAL_OUTPUT_IMMEDIATE_ENABLE) {

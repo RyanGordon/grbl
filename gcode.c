@@ -463,7 +463,6 @@ uint8_t gc_execute_line(char *line)
   // [6. Change tool ]: N/A
   // [7. Spindle control ]: N/A
   // [8. Coolant control ]: N/A
-
   // [9. Digital Output Control ]: P value missing. P is negative (done.) NOTE: See below.
   if (bit_istrue(command_words,bit(MODAL_GROUP_M9))) {
     if (bit_isfalse(value_words,bit(WORD_P))) { FAIL(STATUS_GCODE_VALUE_WORD_MISSING); } // [P word missing]
@@ -880,8 +879,7 @@ uint8_t gc_execute_line(char *line)
 
   // [9. Digital Output Control ]:
   if (bit_istrue(command_words,bit(MODAL_GROUP_M9))) {
-    gc_state.modal.dio_immediate = gc_block.modal.dio_immediate;
-    dio_immediate_run(gc_state.modal.dio_immediate, gc_block.values.p);
+    dio_immediate_run(gc_block.modal.dio_immediate, gc_block.values.p);
   }
   
   // [10. Enable/disable feed rate or spindle overrides ]: NOT SUPPORTED

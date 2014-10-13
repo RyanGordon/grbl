@@ -27,8 +27,8 @@
 void dio_init()
 {
   #ifdef DIO_CONTROL
-    DIGITAL_IO_DDR1 |= (1 << DIGITAL_IO_BIT0);
-    DIGITAL_IO_DDR1 |= (1 << DIGITAL_IO_BIT1);
+    DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT0);
+    DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT1);
     DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT2);
     DIGITAL_IO_DDR |= (1 << DIGITAL_IO_BIT3);
     dio_stop();
@@ -38,8 +38,8 @@ void dio_init()
 void dio_stop()
 {
   #ifdef DIO_CONTROL
-    DIGITAL_IO_DDR1 &= ~(1 << DIGITAL_IO_BIT0);
-    DIGITAL_IO_DDR1 &= ~(1 << DIGITAL_IO_BIT1);
+    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT0);
+    DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT1);
     DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT2);
     DIGITAL_IO_DDR &= ~(1 << DIGITAL_IO_BIT3);
   #endif

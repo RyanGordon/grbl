@@ -109,11 +109,11 @@
 // alarm out and force the user to manually disengage the limit switch. Otherwise, if you have one
 // limit switch for each axis, don't enable this option. By keeping it disabled, you can perform a
 // homing cycle while on the limit switch and not have to move the machine off of it.
-// #define LIMITS_TWO_SWITCHES_ON_AXES
+#define LIMITS_TWO_SWITCHES_ON_AXES
 
 // Allows GRBL to track and report gcode line numbers.  Enabling this means that the planning buffer
 // goes from 18 or 16 to make room for the additional line number data in the plan_block_t struct
-// #define USE_LINE_NUMBERS // Disabled by default. Uncomment to enable.
+#define USE_LINE_NUMBERS // Disabled by default. Uncomment to enable.
 
 // Allows GRBL to report the real-time feed rate.  Enabling this means that GRBL will be reporting more 
 // data with each status update.
@@ -267,7 +267,7 @@
 // the spindle direction pin(D13) as a separate spindle enable pin along with spindle speed PWM on pin D11. 
 // NOTE: This configure option only works with VARIABLE_SPINDLE enabled and a 328p processor (Uno). 
 // NOTE: With no direction pin, the spindle clockwise M4 g-code command will be removed. M3 and M5 still work.
-// #define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
+#define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
 
 // With this enabled, Grbl sends back an echo of the line it has received, which has been pre-parsed (spaces
 // removed, capitalized letters, no comments) and is to be immediately executed by Grbl. Echoes will not be 
@@ -276,7 +276,7 @@
 // NOTE: Only use this for debugging purposes!! When echoing, this takes up valuable resources and can effect
 // performance. If absolutely needed for normal operation, the serial write buffer should be greatly increased
 // to help minimize transmission waiting within the serial write protocol.
-// #define REPORT_ECHO_LINE_RECEIVED // Default disabled. Uncomment to enable.
+#define REPORT_ECHO_LINE_RECEIVED // Default disabled. Uncomment to enable.
 
 // Minimum planner junction speed. Sets the default minimum junction speed the planner plans to at
 // every buffer block junction, except for starting from rest and end of the buffer, which are always

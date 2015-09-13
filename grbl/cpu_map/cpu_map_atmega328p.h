@@ -155,4 +155,3 @@
  #define DIGITAL_IO_BIT2 4 // Uno Digital Pin 4
  #define DIGITAL_IO_BIT3 3 // Uno Digital Pin 3
 #endif
-#endif

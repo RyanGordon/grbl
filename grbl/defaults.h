@@ -77,6 +77,10 @@
   #include "defaults/defaults_zen_toolworks_7x7.h"
 #endif
 
+#ifdef DEFAULTS_RYGY
+  #include "defaults/defaults_rygy.h"
+#endif
+
 #ifdef DEFAULTS_OXCNC
   // Grbl settings for OpenBuilds OX CNC Machine
   // http://www.openbuilds.com/builds/openbuilds-ox-cnc-machine.341/

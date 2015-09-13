@@ -79,7 +79,7 @@
 // Number of homing cycles performed after when the machine initially jogs to limit switches.
 // This help in preventing overshoot and should improve repeatability. This value should be one or 
 // greater.
-#define N_HOMING_LOCATE_CYCLE 2 // Integer (1-128)
+#define N_HOMING_LOCATE_CYCLE 1 // Integer (1-128)
 
 // After homing, Grbl will set by default the entire machine space into negative space, as is typical
 // for professional CNC machines, regardless of where the limit switches are located. Uncomment this 
@@ -153,8 +153,9 @@
 
 // Inverts pin logic of the control command pins. This essentially means when this option is enabled
 // you can use normally-closed switches, rather than the default normally-open switches.
-// NOTE: Will eventually be added to Grbl settings in v1.0.
-// #define INVERT_CONTROL_PIN // Default disabled. Uncomment to enable.
+// NOTE: If you require individual control pins inverted, keep this macro disabled and simply alter
+//   the CONTROL_INVERT_MASK definition in cpu_map.h files.
+// #define INVERT_ALL_CONTROL_PINS // Default disabled. Uncomment to enable.
 
 // Inverts the spindle enable pin from low-disabled/high-enabled to low-enabled/high-disabled. Useful
 // for some pre-built electronic boards.
@@ -162,13 +163,6 @@
 // spindle enable are combined to one pin. If you need both this option and spindle speed PWM, 
 // uncomment the config option USE_SPINDLE_DIR_AS_ENABLE_PIN below.
 // #define INVERT_SPINDLE_ENABLE_PIN // Default disabled. Uncomment to enable.
-
-// Enable limit pin states feedback in status reports. The data is presented as 0 (low) or 1(high), 
-// where the order is XYZ. For example, if the Y- and Z-limit pins are active, Grbl will include the 
-// following string in the status report "Lim:011". This is generally useful for setting up a new
-// CNC machine, but we do not recommend keeping this option enabled, as it will consume CPU resources
-// with little to no benefit during normal operation and it may not be supported by most GUIs.
-#define REPORT_LIMIT_PIN_STATE // Default disabled. Uncomment to enable.
 
 // Enable control pin states feedback in status reports. The data is presented as simple binary of
 // the control pin port (0 (low) or 1(high)), masked to show only the input pins. Non-control pins on the 
@@ -267,6 +261,9 @@
 // the spindle direction pin(D13) as a separate spindle enable pin along with spindle speed PWM on pin D11. 
 // NOTE: This configure option only works with VARIABLE_SPINDLE enabled and a 328p processor (Uno). 
 // NOTE: With no direction pin, the spindle clockwise M4 g-code command will be removed. M3 and M5 still work.
+// NOTE: BEWARE! The Arduino bootloader toggles the D13 pin when it powers up. If you flash Grbl with
+// a programmer (you can use a spare Arduino as "Arduino as ISP". Search the web on how to wire this.), 
+// this D13 LED toggling should go away. We haven't tested this though. Please report how it goes!
 #define USE_SPINDLE_DIR_AS_ENABLE_PIN // Default disabled. Uncomment to enable.
 
 // With this enabled, Grbl sends back an echo of the line it has received, which has been pre-parsed (spaces

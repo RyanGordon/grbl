@@ -41,8 +41,8 @@ void system_init()
 ISR(CONTROL_INT_vect) 
 {
   uint8_t pin = (CONTROL_PIN & CONTROL_MASK);
-  #ifndef INVERT_CONTROL_PIN
-    pin ^= CONTROL_MASK;
+  #ifndef INVERT_ALL_CONTROL_PINS
+    pin ^= CONTROL_INVERT_MASK;
   #endif
   // Enter only if any CONTROL pin is detected as active.
   if (pin) { 
@@ -200,7 +200,21 @@ uint8_t system_execute_line(char *line)
             } while (line[char_counter++] != 0);
             settings_store_build_info(line);
           }
-          break;                 
+          break; 
+        case 'R' : // Restore defaults [IDLE/ALARM]
+          if (line[++char_counter] != 'S') { return(STATUS_INVALID_STATEMENT); }
+          if (line[++char_counter] != 'T') { return(STATUS_INVALID_STATEMENT); }
+          if (line[++char_counter] != '=') { return(STATUS_INVALID_STATEMENT); }
+          if (line[char_counter+2] != 0) { return(STATUS_INVALID_STATEMENT); }                        
+          switch (line[++char_counter]) {
+            case '$': settings_restore(SETTINGS_RESTORE_DEFAULTS); break;
+            case '#': settings_restore(SETTINGS_RESTORE_PARAMETERS); break;
+            case '*': settings_restore(SETTINGS_RESTORE_ALL); break;
+            default: return(STATUS_INVALID_STATEMENT);
+          }
+          report_feedback_message(MESSAGE_RESTORE_DEFAULTS);
+          mc_reset(); // Force reset to ensure settings are initialized correctly.
+          break;
         case 'N' : // Startup lines. [IDLE/ALARM]
           if ( line[++char_counter] == 0 ) { // Print startup lines
             for (helper_var=0; helper_var < N_STARTUP_LINE; helper_var++) {
@@ -252,8 +266,10 @@ float system_convert_axis_steps_to_mpos(int32_t *steps, uint8_t idx)
   #ifdef COREXY
     if (idx==A_MOTOR) { 
       pos = 0.5*((steps[A_MOTOR] + steps[B_MOTOR])/settings.steps_per_mm[idx]);
-    } else { // (idx==B_MOTOR)
+    } else if (idx==B_MOTOR) {
       pos = 0.5*((steps[A_MOTOR] - steps[B_MOTOR])/settings.steps_per_mm[idx]);
+    } else {
+      pos = steps[idx]/settings.steps_per_mm[idx];
     }
   #else
     pos = steps[idx]/settings.steps_per_mm[idx];

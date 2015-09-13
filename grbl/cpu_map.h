@@ -69,9 +69,9 @@
  #define Y_LIMIT_BIT     4  // Uno Digital Pin 12
  #define Z_LIMIT_BIT     4  // Uno Digital Pin 12
 #else
- #define X_LIMIT_BIT    3  // Uno Digital Pin 11
- #define Y_LIMIT_BIT    3  // Uno Digital Pin 11
- #define Z_LIMIT_BIT    3  // Uno Digital Pin 11
+ #define X_LIMIT_BIT    4  // Uno Digital Pin 12
+ #define Y_LIMIT_BIT    4  // Uno Digital Pin 12
+ #define Z_LIMIT_BIT    4  // Uno Digital Pin 12
 #endif
 #define LIMIT_MASK       ((1<<X_LIMIT_BIT)|(1<<Y_LIMIT_BIT)|(1<<Z_LIMIT_BIT)) // All limit bits
 #define LIMIT_INT        PCIE0  // Pin change interrupt enable pin
@@ -95,7 +95,7 @@
 #ifndef USE_SPINDLE_DIR_AS_ENABLE_PIN
  #define SPINDLE_DIRECTION_DDR   DDRB
  #define SPINDLE_DIRECTION_PORT  PORTB
- #define SPINDLE_DIRECTION_BIT   3  // Uno Digital Pin 11
+ #define SPINDLE_DIRECTION_BIT   5  // Uno Digital Pin 13 - unconnected
 #endif
 
 // Define flood and mist coolant enable output pins.
@@ -103,11 +103,11 @@
 // a later date if flash and memory space allows.
 #define COOLANT_FLOOD_DDR   DDRC
 #define COOLANT_FLOOD_PORT  PORTC
-#define COOLANT_FLOOD_BIT   3  // Uno Analog Pin 3
+#define COOLANT_FLOOD_BIT   0  // Uno Analog Pin 0 - unconnected
 #ifdef ENABLE_M7 // Mist coolant disabled by default. See config.h to enable/disable.
  #define COOLANT_MIST_DDR   DDRC
  #define COOLANT_MIST_PORT  PORTC
- #define COOLANT_MIST_BIT   4 // Uno Analog Pin 4
+ #define COOLANT_MIST_BIT   1 // Uno Analog Pin 1 - unconnected
 #endif  
 
 // Define user-control controls (cycle start, reset, feed hold) input pins.
@@ -115,10 +115,10 @@
 #define CONTROL_DDR       DDRC
 #define CONTROL_PIN       PINC
 #define CONTROL_PORT      PORTC
-#define RESET_BIT         0  // Uno Analog Pin 0
-#define FEED_HOLD_BIT     1  // Uno Analog Pin 1
-#define CYCLE_START_BIT   2  // Uno Analog Pin 2
-#define SAFETY_DOOR_BIT   1  // Uno Analog Pin 1 NOTE: Safety door is shared with feed hold. Enabled by config define.
+#define RESET_BIT         2  // Uno Analog Pin 2 - unconnected
+#define FEED_HOLD_BIT     5  // Uno Analog Pin 5
+#define CYCLE_START_BIT   3  // Uno Analog Pin 3 - unconnected
+#define SAFETY_DOOR_BIT   5  // Uno Analog Pin 5 NOTE: Safety door is shared with feed hold. Enabled by config define.
 #define CONTROL_INT       PCIE1  // Pin change interrupt enable pin
 #define CONTROL_INT_vect  PCINT1_vect
 #define CONTROL_PCMSK     PCMSK1 // Pin change interrupt register
@@ -128,7 +128,7 @@
 #define PROBE_DDR       DDRC
 #define PROBE_PIN       PINC
 #define PROBE_PORT      PORTC
-#define PROBE_BIT       5  // Uno Analog Pin 5
+#define PROBE_BIT       4  // Uno Analog Pin 1
 #define PROBE_MASK      (1<<PROBE_BIT)
 
 

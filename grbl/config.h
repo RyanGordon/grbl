@@ -55,7 +55,7 @@
 // If homing is enabled, homing init lock sets Grbl into an alarm state upon power up. This forces
 // the user to perform the homing cycle (or override the locks) before doing anything else. This is
 // mainly a safety feature to remind the user to home, since position is unknown to Grbl.
-#define HOMING_INIT_LOCK // Comment to disable
+// #define HOMING_INIT_LOCK // Comment to disable TODO: Uncomment this
 
 // Define the homing cycle patterns with bitmasks. The homing cycle first performs a search mode
 // to quickly engage the limit switches, followed by a slower locate mode, and finished by a short
@@ -72,9 +72,9 @@
 // on separate pin, but homed in one cycle. Also, it should be noted that the function of hard limits 
 // will not be affected by pin sharing.
 // NOTE: Defaults are set for a traditional 3-axis CNC machine. Z-axis first to clear, followed by X & Y.
-#define HOMING_CYCLE_0 (1<<Z_AXIS)                // REQUIRED: First move Z to clear workspace.
-#define HOMING_CYCLE_1 ((1<<X_AXIS)|(1<<Y_AXIS))  // OPTIONAL: Then move X,Y at the same time.
-// #define HOMING_CYCLE_2                         // OPTIONAL: Uncomment and add axes mask to enable
+#define HOMING_CYCLE_0 (1<<Z_AXIS)  // REQUIRED: First move Z to clear workspace.
+#define HOMING_CYCLE_1 (1<<X_AXIS)  // OPTIONAL: Then move X
+#define HOMING_CYCLE_2 (1<<Y_AXIS)  // OPTIONAL: Then move Y
 
 // Number of homing cycles performed after when the machine initially jogs to limit switches.
 // This help in preventing overshoot and should improve repeatability. This value should be one or 
@@ -168,7 +168,7 @@
 // following string in the status report "Lim:011". This is generally useful for setting up a new
 // CNC machine, but we do not recommend keeping this option enabled, as it will consume CPU resources
 // with little to no benefit during normal operation and it may not be supported by most GUIs.
-// #define REPORT_LIMIT_PIN_STATE // Default disabled. Uncomment to enable.
+#define REPORT_LIMIT_PIN_STATE // Default disabled. Uncomment to enable.
 
 // Enable control pin states feedback in status reports. The data is presented as simple binary of
 // the control pin port (0 (low) or 1(high)), masked to show only the input pins. Non-control pins on the 
@@ -230,7 +230,7 @@
 // NOTE: All pins associated with the feature are disabled, i.e. XYZ limit pins, not individual axes.
 // WARNING: When the pull-ups are disabled, this requires additional wiring with pull-down resistors!
 //#define DISABLE_LIMIT_PIN_PULL_UP
-//#define DISABLE_PROBE_PIN_PULL_UP
+#define DISABLE_PROBE_PIN_PULL_UP
 //#define DISABLE_CONTROL_PIN_PULL_UP
 
 // Sets which axis the tool length offset is applied. Assumes the spindle is always parallel with 
